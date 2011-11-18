@@ -39,7 +39,7 @@ function loadSinaWeibo() {
 					   .data('userinfo', userinfo)
 			           .appendTo('#weibo-connect');
 		} else {
-		    $.get('/hs/weibo/authlink.php', {'goto':document.URL}, function(text) {
+		    $.get(WEIBO_ROOT + 'authlink.php', {'goto':document.URL}, function(text) {
 			$('<a id="weibo-auth">').attr('href', text)
 					.text('登入新浪微博')
 					.appendTo('#weibo-connect');
@@ -270,7 +270,7 @@ function onForumLogin() {
 	$('#forum-connect .error-message').empty().slideUp();
 	
 	
-    $.get('/hs/apps/talk/auth.php', {username:user, password:pass}, function(result) {
+    $.get(DOMAIN + 'hs/apps/talk/auth.php', {username:user, password:pass}, function(result) {
 	    var elements = result.split('\n');
 		var error = null;
 		if (elements[0] > 0) {
