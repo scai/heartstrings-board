@@ -1,4 +1,4 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
     $('.hide-on-start').hide();
     
 	loadTimeline(0);
@@ -14,7 +14,9 @@ $(document).ready(function(){
 });
 
 var currentAvatarID = 1;
-var URL_ROOT = '/hs/services/';
+var DOMAIN = 'http://samueltai.com/';
+var SERVICE_ROOT = DOMAIN + 'hs/services/';
+var WEIBO_ROOT = DOMAIN + 'hs/weibo/';
 
 function getUsername() {
 	if(localStorage && localStorage['forum_user']) {
@@ -30,7 +32,7 @@ function getUsername() {
 }
 
 function loadSinaWeibo() {
-    $.getJSON('/hs/weibo/userinfo.php', function(userinfo) {
+    $.getJSON(WEIBO_ROOT + 'userinfo.php', function(userinfo) {
 		if (userinfo.screen_name) {
 		    $('<span>').attr('id', 'weibo-screen-name')
 			           .text('歡迎: ' + userinfo.screen_name)
@@ -113,7 +115,7 @@ function createTopicMessageView(item) {
 var currentPage = 0;
 function loadTimeline(page) {
     currentPage = page;
-    $.getJSON(URL_ROOT + 'timeline.php?page=' + page + '&size=15' + rand(), function(data) {
+    $.getJSON(SERVICE_ROOT + 'timeline.php?page=' + page + '&size=15' + rand(), function(data) {
         var list = $('<ul>');
         var topics = new Array();
 
@@ -188,7 +190,7 @@ function onPost() {
         createTopicMessageView(messageData).prependTo('#messages > ul');
     };
     
-    $.post(URL_ROOT + 'create.php', 
+    $.post(SERVICE_ROOT + 'create.php', 
            messageData,
            onPostSuccess);
 }
@@ -217,7 +219,7 @@ function onPostReply(event) {
         messageView.find('.replies').first().append(replyView);
     };
     
-    $.post(URL_ROOT + 'create.php', 
+    $.post(SERVICE_ROOT + 'create.php', 
            replyData,
            onReplySuccess);
 }
