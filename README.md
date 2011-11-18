@@ -1,6 +1,4 @@
-PhoneGap-Start
+邰正宵～心弦网 留言板移动应用
 ---
 
-A starting point for PhoneGap apps.
-
-To get started: fork this repo, modify the config.xml to match your details, and get building!
+HTML5工程，使用PhoneGap制作。
