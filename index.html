@@ -1,63 +1,109 @@
-<!doctype html>
-<html>
-	<head>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
-		<title>Training App</title>
-		<link rel="stylesheet" href="assets/css/master.css" type="text/css" media="screen" />
-		
-		<script src="phonegap.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/xui.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/lawnchair/adaptors/LawnchairAdaptorHelpers.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/lawnchair/adaptors/DOMStorageAdaptor.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/lawnchair/adaptors/WebkitSQLiteAdaptor.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/lawnchair/Lawnchair.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/dsl.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script src="assets/js/app.js" type="text/javascript" charset="utf-8"></script>
-		
-	</head>
-	<body>
- 		<div id="title_bar">�����������԰�</div>
+﻿<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	<meta name="Author" content="Shaoting Cai" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta name="keywords" content="邰正宵, 心弦網, 心弦留言板" />
+	<meta name="description" content="[邰正宵～心弦網] 心弦留言板" />
+	<meta name="copyright" content="2000-2011 心弦网" />
+	<title>留言板 - 邰正宵～心弦網</title>
 
-		<div id="welcome" class="view">
-		  <div class="app_button" id="map_button">Show My Location</div>
-  	      <div class="app_button" id="settings_button">Settings</div>
+	<script type="text/javascript" src="js/jquery-1.7.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/talk.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="css/talk.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/sprites.css" type="text/css" media="all" />
+	<link rel="apple-touch-icon" href="http://samueltai.com/hs/static/favicon_64.png"/>
+    <link rel="shortcut icon" href="http://samueltai.com/hs/static/favicon_32.png" type="image/x-icon" />
+	
+	<!-- Google Analytics -->
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-16261490-4']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+
+</head>
+
+<body class="theme1">
+
+<header>
+    <h1 class="ease-in">
+        <span>心弦網</span>
+        <span>留言板</span>
+    </h1>
+    <nav>
+        <a id="nav-home" class="ease-in" href="http://samueltai.com/" >心弦主頁</a>
+        <a id="nav-refresh" class="ease-in" href="#latest" onclick="onRefreshTimeline()">更新</a>
+        <a id="nav-login" class="ease-in" href="#login" onclick="onToggleLogin()" >會員</a>
+        <a id="nav-post" class="ease-in" href="#post" onclick="onToggleCompose()">發表留言</a>
+    </nav>
+</header>
+
+<div id="main">
+    <div id="user" class="dark-panel ease-in hanging-drawer" align="center">
+        <h3>新浪微博賬戶</h3>
+        <div id="weibo-connect" align="center">		
 		</div>
-
-		<div id="map" class="view">
-		  <div class="map_image">
-              <img id="static_map" src="assets/img/staticmap.png">
-		  </div>
-		  <p>This is where you are</p>
-		  <div class="app_button" id="welcome_button">Go Back</div>
+        
+        <h3>心弦討論區會員</h3>
+        <div id="forum-connect" align="center">
+            <div>
+                <label for="forum-username">用戶名</label>
+                <input type="text" id="forum-username" />
+            </div>
+            <div>
+                <label for="forum-password">密碼</label>
+                <input type="password" id="forum-password" />
+            </div>
+			<div class="error-message hide-on-start"></div>
+            <button onclick="onForumLogin()">登入</button>
+			<button onclick="onToggleLogin()">取消</button>
+        </div>
+		<div id="forum-connect-success">		    
 		</div>
+    </div>
+    
+    <div id="compose" class="dark-panel ease-in hanging-drawer" align="center">
+        <h2>發表留言</h2>
+        <textarea id="compose-content"></textarea>
+        <div id="avatar-selector">
+            <h3>選擇頭像</h3>
+            <div id="avatar-selector-preview" class="sprites avatar1"></div>
+            <div id="avatar-selector-controls">
+                <label id="avatar-id"></label>
+                <a class="avatar-previous" href="#" title="上一個頭像" onclick="onPreviousAvatar()">上一個</a>            
+                <a class="avatar-next"     href="#" title="下一個頭像" onclick="onNextAvatar()">下一個</a>
+            </div>
+        </div>
+        <div id="compose-actions">
+            <button onclick="onPost()">發表</button>
+            <button onclick="onToggleCompose()">取消</button>
+        </div>
+    </div>
 
-		<div id="settings" class="view">
-		  <form id="settings_form">
-		    <fieldset>
-		      <legend>Map Type</legend>
-			  <input type="radio" name="map" value="roadmap" checked>Road Map<br/>
-		      <input type="radio" name="map" value="satellite">Satellite<br/>
-		      <input type="radio" name="map" value="terrain">Terrain<br/>
-		      <input type="radio" name="map" value="hybrid">Hybrid<br/>
-		    </fieldset>
-		    <fieldset>
-		      <legend>Zoom Level</legend>
-  		      <input type="radio" name="zoom" value="10">Super Far<br/>
-  		      <input type="radio" name="zoom" value="12">Far<br/>
-  		      <input type="radio" name="zoom" value="15" checked>Normal<br/>
-  		      <input type="radio" name="zoom" value="18">Close<br/>
-  		      <input type="radio" name="zoom" value="20">Super Close<br/>
-  		     </fieldset>
-		      <button id="save_button">Save</button>
-	      </form>
-		</div>
+    <div id="messages">
+    </div>
+	
+	<div id="pagination">
+		<a id="next-page" href="#" title="顯示比較近期的留言" onclick="onPrevPage()">前一頁</a>
+		<a id="prev-page" href="#" title="顯示比較早期的留言" onclick="onNextPage()">下一頁</a>
+		<span id="page-number"></span>
+	</div>
+</div>
 
-	</body>
+<footer class="ease-in">
+    <div>
+        <a href="http://samueltai.com/" title="心弦網主頁">邰正宵～心弦網</a>
+        <span>© 2011 All rights reserved</span>
+    </div>
+</footer>
+
+</body>
 </html>
