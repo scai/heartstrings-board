@@ -316,6 +316,10 @@ function onForumLogout() {
 	}
 }
 
+function onClosePopup() {
+    $('.class-pane').detach();
+}
+
 
 /* Start TimeAgo Class */
 
