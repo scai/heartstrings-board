@@ -1,0 +1,4 @@
+# cache images for 10 days
+<FilesMatch "\.(js|css|html|htm|jpg|png|gif)$">
+  Header set Cache-Control "max-age=864000, public, must-revalidate"
+</FilesMatch>
