@@ -1,5 +1,6 @@
 ﻿$(document).ready(function(){
     $('.hide-on-start').hide();
+    onClosePopup();
     
 	loadTimeline(0);
 	
@@ -39,10 +40,11 @@ function loadSinaWeibo() {
 					   .data('userinfo', userinfo)
 			           .appendTo('#weibo-connect');
 		} else {
-		    $.get(WEIBO_ROOT + 'authlink.php', {'goto':document.URL}, function(text) {
-			$('<a id="weibo-auth">').attr('href', text)
-					.text('登入新浪微博')
-					.appendTo('#weibo-connect');
+			$.get(WEIBO_ROOT + 'authlink.php', {'goto':DOMAIN+'hs/board/landing.html'}, function(authURL) {
+				var onWeiboLogin = function() {
+					onShowPopup(authURL);
+				};
+				$('<a id="weibo-auth" href="#">登入新浪微博</a>').click(onWeiboLogin).appendTo('#weibo-connect');
 			});
 		}
 	});
@@ -316,10 +318,15 @@ function onForumLogout() {
 	}
 }
 
+var glassPane;
 function onClosePopup() {
-    $('.class-pane').detach();
+    glassPane = $('.glass-pane').detach();
 }
 
+function onShowPopup(authURL) {
+	glassPane.find('iframe').attr('src', authURL);
+	glassPane.appendTo('body');
+}
 
 /* Start TimeAgo Class */
 
